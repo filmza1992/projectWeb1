@@ -27,12 +27,12 @@
                 <form action="process.php" method ="post">
                     <div class = form-group>
                         <label for="budgetTitle">BudgetTitle</label>
-                    <input type="hidden" class = "form-control" name = "id" value = <?php $id?>>
-                    <input type="text" class ="form-control" name = "budget" id = "butgetTitle" placeholder="Enter your Budget" require autocomplete="off" value = <?php $name?>>
+                        <input type="hidden" class = "form-control" name = "id"  required value = <?php echo $id?>>
+                        <input type="text" class ="form-control" name = "budget" id = "butgetTitle" placeholder="Enter your Budget" required autocomplete="off" value = <?php echo $name;?>>
                     </div>
                     <div class = "form-group">
-                    <label for="amountTitle">Amount</label>
-                    <input type="text" class ="form-control" name = "amount" id ="amountTitle" require placeholder="Enter your Amount" value = <?= $amount?>>
+                        <label for="amountTitle">Amount</label>
+                        <input type="text" class ="form-control" name = "amount" id ="amountTitle" required placeholder="Enter your Amount" value = <?= $amount?>>
                     </div>
                     <?php if($update == true):?>
                         <button type = "submit" name ="update" class ="btn btn-success btn-block">Update</button>
