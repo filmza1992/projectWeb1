@@ -1,64 +1,54 @@
-<?php 
-    session_start();
-    $update = false;
-    $name = '';
-    $amount = '';
-    $total = 0;
-    $id = '';
+<?php
+    $con = new mysqli("localhost","root","","miniProjectDB");
 
-    $con = new mysqli("localhost","root","","budget_calculator");
-
-    if($con -> connect_error){
-        die("Connection failed: ".$con->connect_error);
-    }
-    if(isset($_POST["save"])){
-        echo "true";
-        $budget = $_POST["budget"];
-        $amount = $_POST["amount"];
-        $query = mysqli_query($con,"INSERT INTO budget (name ,amount) VALUE ('$budget', '$amount')");
-        
-        $_SESSION["message"] = "Record have been saved !";
-        $_SESSION["msg_type"] = "primary";
-        header("location: index.php?result=true");
-    }
-    
-    $result = mysqli_query($con , "SELECT * from budget");
-    while($row = $result->fetch_assoc()){
-        $total = $total + $row['amount'];
-    }
-
-    if(isset($_GET["delete"])){
+    if(isset($_GET['delete'])){
         $id = $_GET['delete'];
+        
+        $result = mysqli_query($con,"DELETE from student where sid = '$id'");
 
-        $query = mysqli_query($con ,"DELETE from budget where id = $id");
-        $_SESSION['message'] = "Recode has been Delete !";
-        $_SESSION['msg_type'] = "danger";
+        header("location:index.php");
+    }   
 
-        header("location: index.php");
-    }
+    if(isset($_GET['edit'])){
+        $id = $_GET['edit'];
 
-    if(isset($_GET["edit"])){
-        $id = $_GET["edit"];
-        $update = true;
-        $result = mysqli_query($con , "SELECT * from budget where id = $id");
+        $result = mysqli_query($con,"SELECT * from student where sid = '$id'");
+        
+        if($result->num_rows == 1){
+            $row = $result -> fetch_assoc();
+            
+            $id = $row['sid'];
+            $firstName = $row['firstName'];
+            $lastName = $row['lastName'];
+            $nickName = $row['nickName'];
+            $email = $row['email'];
+            $phone = $row['phone'];
 
-
-        if(mysqli_num_rows($result) == 1){
-            $row = $result->fetch_assoc();
-            $name = $row['name'];
-            $amount = $row['amount'];
+            echo $id;
         }
     }
 
     if(isset($_POST['update'])){
+        $originalID = $_POST['originalID'];
         $id = $_POST['id'];
-        $budget = $_POST['budget'];
-        $amount = $_POST['amount'];
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $nickName = $_POST['nickName'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
 
-        $query = mysqli_query($con , "UPDATE budget set name = '$budget' ,amount = '$amount' where id = '$id'");
-        $_SESSION["message"] = "Recode has been update !";
-        $_SESSION["msg_type"] = "success";
-
+        $result = mysqli_query($con , 
+            "UPDATE student 
+            set 
+            sid = '$id',
+            firstName = '$firstName',
+            lastName = '$lastName',
+            nickName = '$nickName',
+            email = '$email',
+            phone = '$phone'
+            where sid = '$originalID'"
+        );
+        
         header("location:index.php");
     }
 ?>

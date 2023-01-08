@@ -1,5 +1,6 @@
 <?php $con = new mysqli("localhost","root","","miniprojectDB");?>
 <?php require_once "process.php";?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +42,7 @@
                 </div>
                 <!-- for phone-->
                 <div class = "w3-center w3-hide-large w3-hide-medium">
-                    <form action="search.php" method ="POST">
+                    <form action="process.php" method ="POST">
                         <div class = "col-md-3">
                             <label for="searchTitle" style="margin-top:10px">Search</label>
                         </div>
@@ -53,12 +54,12 @@
                         </div>
                     </form>
                 </div>
+
             </div>
-            
             <div class ="col-md-6">
                 <div class = "col-md-6">   
                     <div class = "text-center">
-                        <a href="index.php" class ="w3-button w3-red" style="transition:0.5s"><p>Home</p></a>
+                        <a href="index.php" class ="w3-button w3-red" style="transition:0.5s ; "><p>Home</p></a>
                     </div>
                 </div>
                 <div class ="col-md-6">
@@ -71,42 +72,80 @@
     </nav>
 
     <nav class="w3-main" style="margin-top:100px">
-        <div class="container">
-            <h1 id = "headLabel" class ="w3-hide-small w3-hide-medium">List Student</h1>
-            <h1 id = "headLabel" class ="w3-hide-large w3-hide-medium" style ="margin-top:80px">List Student</h1>
+        <div class ="container">
+            <h1 class ="w3-xxxlarge">Edit</h1>
+            <h3 class = "w3-xlarge">Info Account</h3>
+            <hr class ="w3-round" style="border:5px solid red;width:20% ">
         </div>
-        <div class ="row-justify-content-center w3-padding">
-            <?php $result = mysqli_query($con,"SELECT * from student")?>
-            
-            <?php if($result->num_rows == 0):?>
-                <h3>List is null</h3>
-            <?php else:?>
-                <table class ="table">
+        <div class ="container" style ="margin-top:20px">
+            <div class ="col-md-6">
+                <div class ="text-center">
+                    <label for="originalTitle">Original</label>
+                </div>
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Nick Name</th>
-                            <th colspan="2">Action</th>
+                            <th>
+                            </th>
                         </tr>
-                    </thead>        
-                    <?php while($row = $result -> fetch_assoc()):?>
-                        <tr>
-                            <td><?php echo $row['sid']?></td>
-                            <td><?php echo $row['firstName']?></td>
-                            <td><?php echo $row['lastName']?></td>
-                            <td><?php echo $row['nickName']?></td>
-                            <td>
-                                <a href="edit.php?edit=<?php echo $row['sid']?>" class ="btn btn-success">Edit</a>
-                                <a href="process.php?delete=<?php echo $row['sid']?>" class ="btn btn-danger">Delete</a>
-                                <a href="search.php?edit=<?php echo $row['sid']?>" class ="btn btn-primary">Info</a>
-                            </td>
-                            
-                        </tr>
-                    <?php endwhile;?>
+                    </thead>
+                    <tr>
+                        <td>ID &emsp;&emsp; &emsp; &ensp; &nbsp;: <?php echo $id; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Fisrt Name : <?php echo $firstName; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Last Name : <?php echo $lastName; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Nick Name : <?php echo $nickName; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Email : <?php echo $email; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Phone Name : <?php echo $phone; ?></td>
+                    </tr>
                 </table>
-            <?php endif;?>
+            </div>
+            <div class ="col-md-6">
+                <div class ="text-center">
+                    <Label>Edit</Label>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <form action="process.php" method="post">
+                        <input type="hidden" name ="originalID" value = "<?php echo $id?>">
+                        <tr>
+                            <td>id :<input type="text" class="form-control" name ="id"></td> 
+                        </tr>
+                        <tr>
+                            <td>Fisrt Name : <input type="text" class ="form-control" name ="firstName"></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name :  <input type="text" class ="form-control" name ="lastName"></td>
+                        </tr>
+                        <tr>
+                            <td>Nick Name :  <input type="text" class ="form-control"name ="nickName"></td>
+                        </tr>
+                        <tr>
+                            <td>Email :  <input type="text" class ="form-control"name ="email"></td>
+                        </tr>
+                        <tr>
+                            <td>Phone :  <input type="text" class ="form-control"name ="phone"></td>
+                        </tr>
+                        <tr>
+                            <td><button type ="submit" class ="btn btn-primary" name ="update" >Save</button></td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
         </div>
     </nav>
 </body>
